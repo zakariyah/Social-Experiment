@@ -14,16 +14,14 @@ gameProperties.gameTypes  =    [ 'normal',
 'oneRealRecommender' 
 ,'oneRandomRecommender'
 ];
+gameProperties.leastNumberOfRounds = 2;
+gameProperties.variableAdditionOfRounds = 10;
 
-gameProperties.gameRounds = function(x)
+
+gameProperties.gameRounds = function()
 {
-	// returns x + a random number from less than or equal to 10.
-	// x must be greater than zero.
-	if(typeof x === 'undefined')
-	{
-		return Math.floor((Math.random() * 10));
-	}
-	return x + Math.floor((Math.random() * 10));
+	// returns leastNumberOfRounds + a number less than or equal to variableAdditionOfRounds
+	return gameProperties.leastNumberOfRounds + Math.floor((Math.random() * gameProperties.variableAdditionOfRounds));
 }
 
 module.exports = gameProperties;
