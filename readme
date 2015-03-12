@@ -4,6 +4,7 @@
 
  ### On the browser, navigate to localhost:4000/information.
 
+### game properties are present in controller/gameProperties.js
 
 Description of the game:
 A two player setup for games like Iterated Prisoners Dilemma.
