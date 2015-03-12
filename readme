@@ -1,0 +1,9 @@
+ #### How to run an instance of the game ####
+
+ node bin/www.js
+
+ ### On the browser, navigate to localhost:4000/information.
+
+
+Description of the game:
+A two player setup for games like Iterated Prisoners Dilemma.
