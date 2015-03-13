@@ -16,6 +16,7 @@ router.get('/', function(req, res) {
 
 
 router.post('/entry', function(req, res) {
+	console.log("entry post");
 	var hiit = req.session.hiitNumber;
 	if(typeof hiit === 'undefined')
 	{
