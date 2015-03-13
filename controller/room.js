@@ -11,7 +11,7 @@ var room = function(player1, player2)
 	this.round = 1;
 	this.agentPresent = false;
 	this.gameRounds = gameProperties.gameRounds();
-
+	console.log("game rounds is " + this.gameRounds);
 	this.changeRoomState = function()
 	{
 		this.roomState = true;
