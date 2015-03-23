@@ -12,3 +12,6 @@
 
 Description of the game:
 A two player setup for games like Iterated Prisoners Dilemma.
+
+
+### if intended to run on a server, then socket must be gotten from the server.
