@@ -1,0 +1,23 @@
+{
+  "optionMatrix": [ "A"," B" ],
+  "gameMatrix": [[-2, 5], [0,0]],
+  "gameMatrixIsSymmetrical": "true",
+  "tutorialAnswers": [-2, 0],
+  "pdGameMatrix" : [["A", "B",-2,5], 
+                    ["B","A",5,-2],
+                    ["A", "A",3,3],
+                    ["B","B",0,0] ],
+  "leastNumberOfRounds": 2,
+  "variableAdditionOfRounds": 10,
+  "phase1Duration": 10,
+  "phase2Duration": 10,
+  "phase3Duration": 10,
+  "countBeginning": 30,
+  "minTimeMins": 25,
+  "maxTimeMins": 30,
+  "currency": "$",
+  "reward": 0.50,
+  "maxbonus": 2.0,
+  "numPlayers": 2,
+  "title": "Experiment"
+}

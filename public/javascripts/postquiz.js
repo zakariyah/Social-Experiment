@@ -63,26 +63,26 @@ function postQuizQuestions(hasRecommenders, cummulativeScore, numberOfRounds)
     
    postQuizHtmlQuiz += "<div class='col-sm-4'><textarea name='strategyOpponent' rows='3' cols='60' maxlength='200'></textarea></div></div>";
 
-if(hasRecommenders)
-{
-    postQuizHtmlQuiz += "<div class='row'><label><h2>";
-  postQuizHtmlQuiz += "In this part of the survey, please answer the following questions if you had options suggested to you during the action phase of  each round. If otherwise, kindly skip this part.  Each question has a different scale to be used";
-  postQuizHtmlQuiz += "</h2></label></div>";
-	postQuizHtmlQuiz += "<div id='hasRecommenders'><div class='form-group'><label for='exampleInputEmail1' class='col-sm-6 control-label'>Did you find the recommendation useful?</label>";
+// if(hasRecommenders)
+// {
+//     postQuizHtmlQuiz += "<div class='row'><label><h2>";
+//   postQuizHtmlQuiz += "In this part of the survey, please answer the following questions if you had options suggested to you during the action phase of  each round. If otherwise, kindly skip this part.  Each question has a different scale to be used";
+//   postQuizHtmlQuiz += "</h2></label></div>";
+// 	postQuizHtmlQuiz += "<div id='hasRecommenders'><div class='form-group'><label for='exampleInputEmail1' class='col-sm-6 control-label'>Did you find the recommendation useful?</label>";
     
-    postQuizHtmlQuiz += "<div class='col-sm-4'><select name='usefulRecommendation'  class='form-control'>";
-    postQuizHtmlQuiz += "<option value='' selected='selected'>(please select one)</option><option value='0'>Not at all</option>";
-    postQuizHtmlQuiz += "<option value='1'>Rarely</option><option value='2'>Sometimes</option><option value='3'>Frequently</option>";
-    postQuizHtmlQuiz += "<option value='4'>Very useful</option></select></div></div>";
+//     postQuizHtmlQuiz += "<div class='col-sm-4'><select name='usefulRecommendation'  class='form-control'>";
+//     postQuizHtmlQuiz += "<option value='' selected='selected'>(please select one)</option><option value='0'>Not at all</option>";
+//     postQuizHtmlQuiz += "<option value='1'>Rarely</option><option value='2'>Sometimes</option><option value='3'>Frequently</option>";
+//     postQuizHtmlQuiz += "<option value='4'>Very useful</option></select></div></div>";
 
-    postQuizHtmlQuiz += "<div class='form-group'><label for='exampleInputEmail1' class='col-sm-6 control-label'>How often did you follow the recommendation?</label>";
-    postQuizHtmlQuiz += "<div class='col-sm-4'><select name='followRecommendation'  class='form-control'>";
-    postQuizHtmlQuiz += "<option value='' selected='selected'>(please select one)</option><option value='0'>Not at all</option>";
-    postQuizHtmlQuiz += "<option value='1'>Rarely</option><option value='2'>Sometimes</option><option value='3'>Frequently</option>";
-    postQuizHtmlQuiz += "<option value='4'>Very useful</option></select></div></div></div> ";	
-}
+//     postQuizHtmlQuiz += "<div class='form-group'><label for='exampleInputEmail1' class='col-sm-6 control-label'>How often did you follow the recommendation?</label>";
+//     postQuizHtmlQuiz += "<div class='col-sm-4'><select name='followRecommendation'  class='form-control'>";
+//     postQuizHtmlQuiz += "<option value='' selected='selected'>(please select one)</option><option value='0'>Not at all</option>";
+//     postQuizHtmlQuiz += "<option value='1'>Rarely</option><option value='2'>Sometimes</option><option value='3'>Frequently</option>";
+//     postQuizHtmlQuiz += "<option value='4'>Very useful</option></select></div></div></div> ";	
+// }
 
-    postQuizHtmlQuiz += "<div class='form-group'><label><h2>";
+  postQuizHtmlQuiz += "<div class='form-group'><label><h2>";
   postQuizHtmlQuiz += "In this part of the survey, we will be asking questions related to your demography";
   postQuizHtmlQuiz += "</h2></label></div>";
 

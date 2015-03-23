@@ -21,6 +21,8 @@
   
   </style>
     <script type='text/javascript'>
+    var validAnswers = "<%- tutorialAnswers %>" ;
+    validAnswers = validAnswers.split(",");
     function validateAnswers()
     {
       var confirmation = document.getElementById('confirmation');
@@ -30,7 +32,7 @@
         return false;
       }
       var correct = true;
-      var correctAnswers = [-2, 0]
+      var correctAnswers = validAnswers;
       for(var i = 0; i < 2; i++)
       {
         var value = -1;
@@ -205,42 +207,42 @@
               <h1> Payoff Structure</h1>
                  <table class='table table-bordered table-condensed'>
                  <tr><th>Option</th> <th>You will get</th> <th>The other person will get</th> </tr>
-                 <tr><td>A: </td><td>-2</td><td>5</td></tr>
-                 <tr><td>B: </td><td>0</td><td>0</td></tr>
+                 <tr><td> <%= optionMatrix[0] %>: </td><td><%= gameMatrix[0][0] %></td><td><%= gameMatrix[0][1] %></td></tr>
+                 <tr><td><%= optionMatrix[1] %>: </td><td><%= gameMatrix[1][0] %></td><td><%= gameMatrix[1][1] %></td></tr>
                  </table>
                  <h6> Questions </h6>
                 <form class='form' method='post' action='./entry'  onsubmit="return validateAnswers()">
                   <div class="form-group">
-                 <label>1.  How much do you get if you choose action A but the other player chooses action B</label>
+                 <label>1.  How much do you get if you choose action <%= optionMatrix[0] %> but the other player chooses action <%= optionMatrix[1] %></label>
                  
                   <label class="radio-inline">
-        <input type="radio" name="1" value="3"> 3
+        <input type="radio" name="1" value="<%= gameMatrix[0][0] + gameMatrix[0][1] %>"> <%= gameMatrix[0][0] + gameMatrix[0][1] %>
         </label>
                 <label class="radio-inline">
-            <input type="radio" name="1" value="5"> 5
+            <input type="radio" name="1" value="<%= gameMatrix[1][0] + gameMatrix[0][1] %>"> <%= gameMatrix[1][0] + gameMatrix[0][1] %>
           </label>
           <label class="radio-inline">
-            <input type="radio" name="1" value="-2"> -2
+            <input type="radio" name="1" value="<%= gameMatrix[0][0] + gameMatrix[1][1] %>"> <%= gameMatrix[0][0] + gameMatrix[1][1] %>
           </label>
           <label class="radio-inline">
-            <input type="radio" name="1" value="0"> 0
+            <input type="radio" name="1" value="0"> <%= gameMatrix[1][0] + gameMatrix[1][1] %>
           </label>
           
 </div>
 
           <div class="form-group">
-          <label>2.  How much do you get if you choose action B but the other player chooses action B</label>
-                  <label class="radio-inline">
-        <input type="radio" name="2" value="3"> 3
+          <label>2.  How much do you get if you choose action <%= optionMatrix[1] %> but the other player chooses action <%= optionMatrix[1] %></label>
+                 <label class="radio-inline">
+        <input type="radio" name="2" value="<%= gameMatrix[0][0] + gameMatrix[0][1] %>"> <%= gameMatrix[0][0] + gameMatrix[0][1] %>
         </label>
                 <label class="radio-inline">
-            <input type="radio" name="2" value="5"> 5
+            <input type="radio" name="2" value="<%= gameMatrix[1][0] + gameMatrix[0][1] %>"> <%= gameMatrix[1][0] + gameMatrix[0][1] %>
           </label>
           <label class="radio-inline">
-            <input type="radio" name="2" value="-2"> -2
+            <input type="radio" name="2" value="<%= gameMatrix[0][0] + gameMatrix[1][1] %>"> <%= gameMatrix[0][0] + gameMatrix[1][1] %>
           </label>
           <label class="radio-inline">
-            <input type="radio" name="2" value="0"> 0
+            <input type="radio" name="2" value="0"> <%= gameMatrix[1][0] + gameMatrix[1][1] %>
           </label>
 </div>
 <div class="form-group">

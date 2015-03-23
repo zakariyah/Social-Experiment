@@ -61,8 +61,7 @@ ionew.sockets.on('connection', function (socket) {
 	{
 		if(firstPlayerJustEntered)
 		{
-			gameControllerArray[gameCounter] = new gameController(2);
-			
+			gameControllerArray[gameCounter] = new gameController(2);			
 		}
 		else
 		{
@@ -92,89 +91,7 @@ ionew.sockets.on('connection', function (socket) {
 			{
 				firstPlayerJustEntered = false;
 			}
-		}
-		else if(gameType == "randomRecommenders")
-		{
-			var player = new gameplayer(gameCounter, socket, false, 1, playerHiitNumberMap[socket.id]);
-			gameControllerArray[gameCounter].addPlayer(player);
-			if(gameControllerArray[gameCounter].isFilled())
-			{
-				startGame();
-				var playersId = Object.keys(gameControllerArray[gameCounter].gamePlayers);
-				for(var playerId in playersId)
-				{
-					gameControllerArray[gameCounter].gamePlayers[playersId[playerId]].setHasRecommender(true);
-				}
-				
-				firstPlayerJustEntered = true;
-			}
-			else
-			{
-				firstPlayerJustEntered = false;
-			}
-		} 
-		else if(gameType == "realRecommenders")
-		{
-			var player = new gameplayer(gameCounter, socket, false, 1,playerHiitNumberMap[socket.id]);
-			gameControllerArray[gameCounter].addPlayer(player);
-			if(gameControllerArray[gameCounter].isFilled())
-			{
-				startGame();
-				var playersId = Object.keys(gameControllerArray[gameCounter].gamePlayers);
-				for(playerId in playersId)
-				{
-					gameControllerArray[gameCounter].gamePlayers[playersId[playerId]].setHasRecommender(false);
-				}
-				
-				firstPlayerJustEntered = true;
-			}
-			else
-			{
-				firstPlayerJustEntered = false;
-			}
-		}
-		else if(gameType == "oneRealRecommender")
-		{
-			var player = new gameplayer(gameCounter, socket, false, 1, playerHiitNumberMap[socket.id]);
-			gameControllerArray[gameCounter].addPlayer(player);
-			if(gameControllerArray[gameCounter].isFilled())
-			{
-				startGame();
-				var playersId = Object.keys(gameControllerArray[gameCounter].gamePlayers);
-				for(playerId in playersId)
-				{
-					gameControllerArray[gameCounter].gamePlayers[playersId[playerId]].setHasRecommender(false);
-					break;  // to make sure only one has a recommender
-				}
-				
-				firstPlayerJustEntered = true;
-			}
-			else
-			{
-				firstPlayerJustEntered = false;
-			}
-		}
-
-		else if(gameType == "oneRandomRecommender")
-		{
-			var player = new gameplayer(gameCounter, socket, false, 1, playerHiitNumberMap[socket.id]);
-			gameControllerArray[gameCounter].addPlayer(player);
-			if(gameControllerArray[gameCounter].isFilled())
-			{
-				startGame();
-				var playersId = Object.keys(gameControllerArray[gameCounter].gamePlayers);
-				for(playerId in playersId)
-				{
-					gameControllerArray[gameCounter].gamePlayers[playersId[playerId]].setHasRecommender(true);
-					break;  // to make sure only one has a recommender
-				}				
-				firstPlayerJustEntered = true;
-			}
-			else
-			{
-				firstPlayerJustEntered = false;
-			}
-		}
+		}		
 		
 		playersSocketDict[socket.id] = gameCounter; // dictionary to be used for getting players later on
 
@@ -189,32 +106,33 @@ ionew.sockets.on('connection', function (socket) {
 	function startGame()
 	{
 		var playersId = Object.keys(gameControllerArray[gameCounter].gamePlayers); // createAgentToBeAddedToRooms();
-			mapOutPlayers(playersId);
+		mapOutPlayers(playersId);
 	}
 
 	function sendMessageAndStart()
 	{
 		for(var i in gameControllerArray[gameCounter].gamePlayers)
 			{
-				var message = "Your opponent's id is " + gameMap[i];
+				// var message = "Your opponent's id is " + gameMap[i];
 				if( !gameControllerArray[gameCounter].gamePlayers[i].isAgent)
 				{
-					if(gameControllerArray[gameCounter].gamePlayers[i].hasRecommender)
-					{
-						message += " But don't worry, you have a recommender ";
-					}
+					// if(gameControllerArray[gameCounter].gamePlayers[i].hasRecommender)
+					// {
+					// 	message += " But don't worry, you have a recommender ";
+					// }
 						var playerToSendMessage = gameControllerArray[gameCounter].gamePlayers[i];
 						var roomObject = gameControllerArray[gameCounter].gameRooms[playerToSendMessage.id]; 
 						var numberOfRounds = roomObject.getGameRounds();
 						var recommenderOption = playerToSendMessage.hasRecommender ? 1 : 0;
 						var recc = playerToSendMessage.getRecommendation();
-						playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, text : message, rounds : numberOfRounds, recommenderOptionValue : recommenderOption, recommendation : recc});
-						playerToSendMessage.sessionSocket.emit('start');
+playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilities : 0, rounds : numberOfRounds, phase1Duration : gameProperties.phase1Duration});
+// phase2Utilities is zero because of first round
+						playerToSendMessage.sessionSocket.emit('start', gameProperties.phase1Utilities);
 				}
 			}
 	}
 
-		function mapOutPlayers(playersId)
+	function mapOutPlayers(playersId)
 	{
 		for (var i = 0; i < playersId.length; i++)
 		{
@@ -232,6 +150,18 @@ ionew.sockets.on('connection', function (socket) {
 		};
 	} 
 
+	function getServerMesage(store, soc, roomObject)
+	{
+		var cummScore = store.players[soc.id].getCummulativeValue();
+			var message = {count : store.round, rounds : roomObject.getGameRounds(), cumm: cummScore};
+			message.phase2Duration = gameProperties.phase2Duration;
+			message.phase1Duration = gameProperties.phase1Duration;
+			message.phase1Utilities = gameProperties.phase1Utilities;
+			message.phase2Utilities = store.players[soc.id].printResults();
+			message.phase2Utilities.round = store.round; // present round
+
+			return message;
+	}
 
 	socket.on('clientMessage', function(content) {
 		var options = ['A', 'B'];
@@ -249,7 +179,7 @@ ionew.sockets.on('connection', function (socket) {
 		var roomObject = gameControllerArray[presentSocketGameCounter].gameRooms[socket.id]; 
 		store.addAnswer(content.gamePlay, gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id]);
 		gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id].setTimeOfAction(content.timeOfAction);
-		var messageText = "<div class=\"alert alert-warning\"> Round " + store.round + " results</div>";
+		// var messageText = "<div class=\"alert alert-warning\"> Round " + store.round + " results</div>";
 
 
 		if(roomObject.agentPresent)  //if agent is present in the game
@@ -257,10 +187,16 @@ ionew.sockets.on('connection', function (socket) {
 			var opponent = gameMap[socket.id];  //get agent id.
 			var agentMove = roomObject.player2.nextMove(content.gamePlay);
 			store.addAnswer(agentMove, gameControllerArray[presentSocketGameCounter].gamePlayers[opponent]);
-			var recc = gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id].getRecommendation();
-			var cummScore = store.players[socket.id].getCummulativeValue();
-			var message = {count : store.round, text : (messageText  + " " + store.players[socket.id].printResults()), recommendation : recc, rounds : roomObject.getGameRounds(), cumm: cummScore};
-			socket.emit('serverMessage', message);
+			// var recc = gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id].getRecommendation();
+			// var text = store.players[socket.id].printResults();
+			// var cummScore = store.players[socket.id].getCummulativeValue();
+			// var message = {count : store.round, rounds : roomObject.getGameRounds(), cumm: cummScore};
+			// message.phase2Duration = gameProperties.phase2Duration;
+			// message.phase1Duration = gameProperties.phase1Duration;
+			// message.phase1Utilities = gameProperties.phase1Utilities;
+			// message.phase2Utilities = store.players[socket.id].printResults();
+			// message.phase2Utilities.round = store.round; // present round
+			socket.emit('serverMessage', getServerMesage(store, socket, roomObject));
 			store.clear();
 		}
 
@@ -273,9 +209,14 @@ ionew.sockets.on('connection', function (socket) {
 				if(!soc1.isAgent)
 				{ // returns null if it has no recommender and also does nothing in update recommender
 					soc1.updateRecommender(store.answererSet[soc1.id].chosenAnswer, store.answererSet[soc2.id].chosenAnswer);
-					var cummScore = store.players[soc1.id].getCummulativeValue();
-					var message = {count : store.round, text : (messageText  + " " + store.players[soc1.id].printResults()), recommendation : soc1.getRecommendation(), rounds : roomObject.getGameRounds(), cumm : cummScore};
-					soc1.sessionSocket.emit('serverMessage', message);						
+					// var cummScore = store.players[soc1.id].getCummulativeValue();
+					// var message = {count : store.round, rounds : roomObject.getGameRounds(), cumm : cummScore};
+					// message.phase2Duration = gameProperties.phase2Duration;
+					// message.phase1Duration = gameProperties.phase1Duration;
+					// message.phase1Utilities = gameProperties.phase1Utilities;
+					// message.phase2Utilities = store.players[soc1.id].printResults();
+					// message.phase2Utilities.round = store.round;
+					soc1.sessionSocket.emit('serverMessage', getServerMesage(store, soc1, roomObject));						
 				}
 				else
 				{
@@ -285,9 +226,14 @@ ionew.sockets.on('connection', function (socket) {
 				if(!soc2.isAgent)
 				{
 					soc2.updateRecommender(store.answererSet[soc2.id].chosenAnswer, store.answererSet[soc1.id].chosenAnswer);
-					var cummScore = store.players[soc2.id].getCummulativeValue();
-					var message2 = {count : store.round, text : (messageText  + " " + store.players[soc2.id].printResults()), recommendation : soc2.getRecommendation(), rounds : roomObject.getGameRounds(), cumm :cummScore};
-					soc2.sessionSocket.emit('serverMessage', message2);						
+					// var cummScore = store.players[soc2.id].getCummulativeValue();
+					// var message2 = {count : store.round, rounds : roomObject.getGameRounds(), cumm :cummScore};
+					// message2.phase2Duration = gameProperties.phase2Duration;
+					// message2.phase1Duration = gameProperties.phase1Duration;
+					// message2.phase1Utilities = gameProperties.phase1Utilities;
+					// message2.phase2Utilities = store.players[soc2.id].printResults();
+					// message2.phase2Utilities.round = store.round;
+					soc2.sessionSocket.emit('serverMessage', getServerMesage(store, soc2, roomObject));						
 				}
 				else
 				{
@@ -357,14 +303,14 @@ socket.on('disconnect', function()
 });
 
 
-socket.on('timeOfAction', function(timeOfAction) { // used to set the time action took place
-		var presentSocketGameCounter = playersSocketDict[socket.id];
-		if(typeof presentSocketGameCounter === 'undefined')
-		{
-			return;
-		}
-		var playerWithTime =  gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id]; //	roomToSocket[socket.id];
-		playerWithTime.setTimeOfAction(timeOfAction);
-		});
+// socket.on('timeOfAction', function(timeOfAction) { // used to set the time action took place
+// 		var presentSocketGameCounter = playersSocketDict[socket.id];
+// 		if(typeof presentSocketGameCounter === 'undefined')
+// 		{
+// 			return;
+// 		}
+// 		var playerWithTime =  gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id]; //	roomToSocket[socket.id];
+// 		playerWithTime.setTimeOfAction(timeOfAction);
+// 		});
 
 });

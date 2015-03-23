@@ -1,7 +1,7 @@
 var enteredGame = require('../model/enteredGame');
 var gameProperties = require('../controller/gameProperties');
 
-var entryVerifier = function(req, res, playerPresent, playerAbsent, hiit)
+var entryVerifier = function(req, res, playerPresent, playerAbsent, hiit, countBeginning)
 {
 	// verifies entry then save the value : to be used for entry page
 	// the player id is not present in the session object
@@ -20,7 +20,7 @@ var entryVerifier = function(req, res, playerPresent, playerAbsent, hiit)
 				req.session.hiitNumber = playerId;
 				enteredGame.createEnteredGame(hiitNumberInfo);
 				res.render(playerAbsent, { title: playerAbsent, minTimeMins : 5, maxTimeMins : 20, currency:'AED', reward : 50
-		,maxbonus :20, playingtimes : 10, numPlayers : 6, waitingRoomTime : 30000, hiitNumber : playerId});
+		,maxbonus :20, playingtimes : 10, numPlayers : 6, waitingRoomTime : 30000, hiitNumber : playerId, countBeginning : countBeginning});
 			}
 			else
 			{

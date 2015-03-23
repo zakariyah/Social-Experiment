@@ -5,37 +5,67 @@
     <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src='/javascripts/postquiz.js'></script>
-    <script src='/javascripts/pdView.js'></script>
     <script type="text/javascript">
      function playSound(){   
                 document.getElementById("sound").innerHTML='<audio autoplay="autoplay"><source src="/audio.notification.mp3" type="audio/mpeg" /><source src="/audio.notification.ogg" type="audio/ogg" /><embed hidden="true" autostart="true" loop="false" src="/audio.notification.mp3" /></audio>';
             }
       </script>
   </head>
-
-  <body onunload="">
+<body onunload="">
      <script src="http://localhost:4000/socket.io/socket.io.js"></script>
     <p style="display:none" id="hiitNumber"><%= hiitNumber %></p>
-    <p style="display:none" id="countBeginning"><%= countBeginning %></p>
+    <p style="display:none" id="countBeginning"><%= 300 %></p>
 <script type="text/javascript">
 window.onbeforeunload = function() {
         return "Please do not leave this page except through the 'Go to payment' button. \n If not, you will be disqualified and will not be paid";
     }
 var timeOfAction = -1;
+var timeGivenForAction = 5;    
+var hasRecommender = 0;
 
-function setTimeOfEvent()
+function makeSelectionImpossible()
 {
-  timeOfAction = document.getElementById("countRemain").innerHTML;
+  document.getElementById('first').disabled = true;
+  document.getElementById('second').disabled = true;
 }
 
-function setTimer(phase1Duration)
+function showRecommendation(reco)
 {
-  var mainCount = phase1Duration;
-  var count = phase1Duration;
+  var options = ['A', 'B'];
+  var recomend = document.getElementById('recommender');
+  if(reco != null)
+    {
+      var message = "Recommended Action: " + options[reco - 1];
+      recomend.innerHTML = message;
+    }
+}
+function setTimeOfEvent()
+{
+  
+  var countRemain = document.getElementById("countRemain").innerHTML;
+  timeOfAction = timeGivenForAction - countRemain;
+
+
+}
+
+function changeProgressBar(barId, rvalue, totalValue)
+{
+  var value = totalValue - rvalue;
+  var ariaNow = value  * 100.0 / totalValue;
+  var progressBar = document.getElementById(barId);
+  progressBar.style.width = Math.floor(ariaNow) + "%";
+}
+
+function setTimer(reco)
+{
+
+  var mainCount = 20;
+  var count = 20;
   var interval = 1000;
   var before = new Date();
   var leftValue = 0;
   var counter=setInterval(timer, 1000);
+  showRecommendation(reco);
   function timer()
   {
     // count = count - 1;
@@ -53,12 +83,11 @@ function setTimer(phase1Duration)
       return;
     }
   document.getElementById("timer").innerHTML = "<span id='countRemain'>" + count + "</span> secs remaining..."; // watch for spelling
-    changeProgressBar('progressBarMain', count, phase1Duration);
+    changeProgressBar('progressBarMain', count, 20);
   }
 }
 
 var countBeginning = document.getElementById("countBeginning").innerHTML;
-
 function setTimerBeginning()
 {  
 var counter=setInterval(timer, 1000);
@@ -75,37 +104,44 @@ function timer()
   }
 }
 
-function showGamePayoffMatrix(phase1Utilities)
+function showGamePayoffMatrix()
 {
-    var htmlString = pdPhase1(phase1Utilities);
-    var actionElement = document.getElementById('actions');
+  var htmlString = "<div class=\"alert alert-warning\"> NEW ROUND </div>";
+  htmlString += "";
+  htmlString += ("<p> <strong class=\"alert alert-success\">Payoff Structure</strong></p><table class='table table-bordered table-condensed'><tr class=\"danger\"><th>Option</th> <th>You will get</th> <th>The other person will get</th> </tr><tr  class=\"danger\"><td><input type=\"radio\" name=\"choiceAction\" id=\'first\' onclick=\'return setTimeOfEvent()\' value=\"1\"> A: </td><td>-2</td><td>5</td></tr><tr  class=\"danger\"><td><input type=\"radio\" name=\"choiceAction\" id=\'second\' onclick=\'return setTimeOfEvent()\' value=\"2\"> B: </td><td>0</td><td>0</td></tr></table><div style='border: 1px #bce8f1 solid;   line-height: 120%;   font-size: 36px;  text-align: center; background-color: #d9edf7;   margin: 5px;'> <span id=\'timer\'></span> </div>" + "<div class='progress'><div id='progressBarMain' class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='5' aria-valuemin='0' aria-valuemax='100' style='width: 5%;'></div></div>"); 
+
+
+
+  var actionElement = document.getElementById('actions');
     actionElement.innerHTML = htmlString;    
 }
 
-function showPlayerChoicesForGivenTime(content)
+function showPlayerChoicesForGivenTime(reco)
 {
-  var timeForChoices = content.phase2Duration;
+  var timeForChoices = 10;
+  document.getElementById('recommender').innerHTML = '';
   var counter=setInterval(timer, 1000);
   function timer()
   {
     timeForChoices = timeForChoices - 1;
     if (timeForChoices < 0)
     {
-      setTimer(content.phase1Duration);
-      showGamePayoffMatrix(content.phase1Utilities);
+      setTimer(reco);
+      showGamePayoffMatrix();
       clearInterval(counter);
       return;
     }
   document.getElementById("nextRoundCounter").innerHTML = "<span style='border: 1px #bce8f1 solid;   line-height: 120%;   font-size: 36px;  text-align: center; background-color: #d9edf7;   margin: 5px;'>Next round starts in " +  timeForChoices + " seconds ... </span>"; 
-  changeProgressBar('progressBar', timeForChoices, content.phase2Duration);
+  changeProgressBar('progressBar', timeForChoices, 10);
   }
 }
+
 
 function endGame(cummulativeScore, numberOfRounds)
 {
         var htmlString = "<div class=\"alert alert-warning\"> Thank you very much, The game is over. You had a total of " + cummulativeScore  +" points</div>";
         htmlString += "<div class=\"alert alert-warning\"> Please fill in the survey below </div>";
-        var heHadRecommenders = 0;
+        var heHadRecommenders = (hasRecommender != 0);
         htmlString += postQuizQuestions(heHadRecommenders, cummulativeScore, numberOfRounds);
 
         var actionsElement = document.getElementById('actions');
@@ -113,49 +149,53 @@ function endGame(cummulativeScore, numberOfRounds)
         // goToURL("./postquizsurvey");
         document.getElementById('recommender').innerHTML = '';
 }
-
-
 // var socket = io.connect('http://ec2-54-191-154-185.us-west-2.compute.amazonaws.com:4000/');
 
 var socket = io.connect('http://localhost:4000');
     // var socketid = socket.id;
 socket.on('serverMessage', function(content) {
-    // var options = content.options; // ['A', 'B'];
+    var options = ['A', 'B'];
 
     var defectElement = document.getElementById('actions'); // block actions for some time
-    defectElement.innerHTML = pdPhase2(content.phase2Utilities); // text of second phase
+    defectElement.innerHTML = content.text;
   
+    
     var numberOfRounds = content.rounds;
-
+    var reco = content.recommendation;
+    hasRecommender = content.recommenderOptionValue;
     if(content.count == 0)
-    {// first round
-      setTimer(content.phase1Duration);
+    {
+      document.getElementById('hehasrecommender').innerHTML = hasRecommender + "";
+    }
+    
+    if(content.count == 0)
+    {
+      setTimer(reco);
       playSound();
     }
     else if(content.count < numberOfRounds)
-    {// subsequent rounds
-      showPlayerChoicesForGivenTime(content);
+    {
+      showPlayerChoicesForGivenTime(reco);
     }
     else
-    {// final rounds
+    {
       var cummulative = content.cumm;
       endGame(cummulative, numberOfRounds);
     }
 });
 
-
-socket.on('start', function(phase1Utilities) {
-   showGamePayoffMatrix(phase1Utilities);
+  socket.on('start', function() {
+   showGamePayoffMatrix();
     countBeginning = 0;
  
 });
 
+
 socket.on('disconnectMessage', function(content) {
-  endGame(cummulative, content.cumm, content.rounds);
+  endGame(cummulative, content.cummScoreK, content.roundK);
 
 });
-
-
+  
 function waitingRoomEnded()
 {
   socket.emit('waitingTimeElapsed');  
@@ -183,7 +223,6 @@ var hiitNumber = document.getElementById("hiitNumber").innerHTML;
 socket.emit('join', hiitNumber);
 setTimerBeginning();
 // for timer starting
-
 </script>
     <div class='container'>
 <div class='col-md-1'></div>

@@ -7,22 +7,44 @@ var agent = function(nombre, playerIndex, payOffMatrix, lambda, isRandom) // nom
 	this.payOffMatrix =  payOffMatrix;
 	this.isRandom = isRandom;
 
+	this.getNormalizedPayoff = function(payoffs)
+	{
+		var minimumPayoff = Math.min.apply(Math, payoffs);
+		if(minimumPayoff < 0)
+		{
+			for(var i = 0; i < payoffs.length; i++)
+			{
+				payoffs[i] = payoffs[i] - minimumPayoff; // shift to zero
+			}	
+		}
+
+		var maximumPayoff = Math.max.apply(Math, payoffs);
+		for(var i = 0; i < payoffs.length; i++)
+		{
+			payoffs[i] /= maximumPayoff;
+		}
+		return payoffs;
+	}
+
 	this.buildPayoffMatrix = function()
 	{
 		// try and get what M is and use it to build this.
 		var myM = [];
 		myM[0] = [];
 		myM[1] = [];
+		var gameProperties = require('./gameProperties');
+		var pdGameMatrix = gameProperties.pdGameMatrix;
 		// myM[0][0] = [0.6, 0];
 		// myM[0][1] = [1, 0.2];
 		// myM[1][0] = [0.6, 1];
 		// myM[1][1] = [0, 0.2];
-
+		var payoffs = [pdGameMatrix[0][2], pdGameMatrix[1][2], pdGameMatrix[2][2], pdGameMatrix[3][2]];
+		payoffs = this.getNormalizedPayoff(payoffs);
 		//  for new matrix
-		myM[0][0] = [0.6, -0.4];
-		myM[0][1] = [1, 0.0];
-		myM[1][0] = [0.6, 1];
-		myM[1][1] = [-0.4, 0.0];
+		myM[0][0] = [payoffs[2], payoffs[0]];
+		myM[0][1] = [payoffs[1], payoffs[3]];
+		myM[1][0] = [payoffs[2],payoffs[1]];
+		myM[1][1] = [payoffs[0], payoffs[3]];
 		return myM;
 	}
 	

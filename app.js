@@ -8,8 +8,6 @@ var io = require('socket.io');
 var routes = require('./routes/index');
 var session = require('express-session');
 
-
-
 var app = express();
 // app.use(cookieParser);
 

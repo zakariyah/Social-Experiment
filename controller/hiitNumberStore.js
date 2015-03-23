@@ -18,8 +18,7 @@ var saveHiitNumber = function(req, res, playerPresent, playerAbsent)
 			{
 				req.session.hiitNumber = playerId;
 				hiitNumber.createHiitSchema(hiitNumberInfo);
-				res.render(playerAbsent, { title: 'Entry', minTimeMins : 25, maxTimeMins : 35, currency:'$', reward : '0.50'
-		,maxbonus :2.0, playingtimes : 10, numPlayers : 2, waitingRoomTime : 30000});
+				res.render(playerAbsent, gameProperties); // to tutorial page
 			}
 			else
 			{

@@ -6,6 +6,8 @@ var savePostQuiz = require('../controller/postquizStore');
 var saveHiitNumber = require('../controller/hiitNumberStore');
 var entryVerifier = require('../controller/entryVerifier');
 var calculatePayment = require('../controller/calculatePayment');
+var gameProperties = require('../controller/gameProperties');
+var countBeginning = gameProperties.countBeginning;
 global.pageCount = 0;
 
 numberOfTimes = 0;
@@ -24,7 +26,7 @@ router.post('/entry', function(req, res) {
 		return;
 	}
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-	entryVerifier(req, res, 'information', 'entry', hiit);
+	entryVerifier(req, res, 'information', 'entry', hiit, countBeginning);
 });
 
 router.get('/information', function(req, res) {
