@@ -14,7 +14,7 @@
   </head>
 
   <body onunload="">
-     <script src="http://localhost:4000/socket.io/socket.io.js"></script>
+    <script src="<%- socketIOAddress %>"></script>
     <p style="display:none" id="hiitNumber"><%= hiitNumber %></p>
     <p style="display:none" id="countBeginning"><%= countBeginning %></p>
 <script type="text/javascript">
@@ -118,7 +118,7 @@ function endGame(cummulativeScore, numberOfRounds)
 
 // var socket = io.connect('http://ec2-54-191-154-185.us-west-2.compute.amazonaws.com:4000/');
 
-var socket = io.connect('http://localhost:4000');
+var socket = io.connect("<%- socketConnectAddress %>");
     // var socketid = socket.id;
 socket.on('serverMessage', function(content) {
     // var options = content.options; // ['A', 'B'];

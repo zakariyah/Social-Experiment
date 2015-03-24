@@ -26,7 +26,8 @@ router.post('/entry', function(req, res) {
 		return;
 	}
 	res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-	entryVerifier(req, res, 'information', gameProperties.entryPage , hiit, countBeginning);
+	entryVerifier(req, res, 'information', gameProperties.entryPage , hiit, countBeginning, 
+		gameProperties.socketAddress, gameProperties.socketIOAddress);
 });
 
 router.get('/information', function(req, res) {

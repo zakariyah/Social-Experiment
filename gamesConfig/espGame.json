@@ -11,5 +11,7 @@
   "numPlayers": 2,
   "title": "Experiment",
   "tutorialPage" : "tutorialEsp",
-  "entryPage" : "entryEsp"
+  "entryPage" : "entryEsp",
+  "socketConnectAddress" : "http://localhost:4000",
+  "socketIOAddress" : "http://localhost:4000/socket.io/socket.io.js"
 }

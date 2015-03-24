@@ -22,3 +22,5 @@ A two player setup for two types of game: Iterated Prisoners Dilemma, ESP game.
 
 
 ### if intended to run on a server, then socket must be gotten from the server.
+
+### To run on server, change the localhost in socketAddress and socketIOAdress to server address.
