@@ -1,6 +1,13 @@
 #### How to run an instance of the game ####
 
- node bin/www.js
+ node bin/www.js gameType
+
+ ### gameType can be pd or esp
+ ### esp for ESP game and pd for Iterated Prisoners Dilemma
+
+
+ ### esp configuration is in espGame.json in the gamesConfig folder
+ ### pd configuration is in prisonersDilemma.json in the gamesConfig folder
 
 ### On the browser, navigate to localhost:4000/information.
 
@@ -11,7 +18,7 @@
 
 
 Description of the game:
-A two player setup for games like Iterated Prisoners Dilemma.
+A two player setup for two types of game: Iterated Prisoners Dilemma, ESP game.
 
 
 ### if intended to run on a server, then socket must be gotten from the server.

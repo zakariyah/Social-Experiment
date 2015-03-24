@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-var debug = require('debug')('my-application');
 
+require('./argumentParser'); 
+var debug = require('debug')('my-application');
 var app = require('../app');
 var io = require('socket.io');
 var connecter = require('../database');
@@ -125,8 +126,9 @@ ionew.sockets.on('connection', function (socket) {
 						var numberOfRounds = roomObject.getGameRounds();
 						var recommenderOption = playerToSendMessage.hasRecommender ? 1 : 0;
 						var recc = playerToSendMessage.getRecommendation();
-playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilities : 0, rounds : numberOfRounds, phase1Duration : gameProperties.phase1Duration});
+playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilities : 0, rounds : numberOfRounds, phase1Duration : gameProperties.phase1Duration, phasesDuration:gameProperties.phasesDuration});
 // phase2Utilities is zero because of first round
+// phasesDuration specific to esp game for now
 						playerToSendMessage.sessionSocket.emit('start', gameProperties.phase1Utilities);
 				}
 			}
@@ -150,7 +152,7 @@ playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilit
 		};
 	} 
 
-	function getServerMesage(store, soc, roomObject)
+	function getServerMessage(store, soc, roomObject)
 	{
 		var cummScore = store.players[soc.id].getCummulativeValue();
 			var message = {count : store.round, rounds : roomObject.getGameRounds(), cumm: cummScore};
@@ -159,12 +161,12 @@ playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilit
 			message.phase1Utilities = gameProperties.phase1Utilities;
 			message.phase2Utilities = store.players[soc.id].printResults();
 			message.phase2Utilities.round = store.round; // present round
-
+			message.phase2Utilities.duration = gameProperties.phase2Duration;
+			message.phasesDuration = gameProperties.phasesDuration;
 			return message;
 	}
 
 	socket.on('clientMessage', function(content) {
-		var options = ['A', 'B'];
 		var presentSocketGameCounter = playersSocketDict[socket.id];
 		if(typeof presentSocketGameCounter === 'undefined')
 		{
@@ -196,27 +198,20 @@ playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilit
 			// message.phase1Utilities = gameProperties.phase1Utilities;
 			// message.phase2Utilities = store.players[socket.id].printResults();
 			// message.phase2Utilities.round = store.round; // present round
-			socket.emit('serverMessage', getServerMesage(store, socket, roomObject));
+			socket.emit('serverMessage', getServerMessage(store, socket, roomObject));
 			store.clear();
 		}
 
 		else // if agent is not present
 		{
 			if(store.isFilled())
-			{					
+			{
 				var soc1 = roomObject.player1;
 				var soc2 = roomObject.player2;
 				if(!soc1.isAgent)
 				{ // returns null if it has no recommender and also does nothing in update recommender
 					soc1.updateRecommender(store.answererSet[soc1.id].chosenAnswer, store.answererSet[soc2.id].chosenAnswer);
-					// var cummScore = store.players[soc1.id].getCummulativeValue();
-					// var message = {count : store.round, rounds : roomObject.getGameRounds(), cumm : cummScore};
-					// message.phase2Duration = gameProperties.phase2Duration;
-					// message.phase1Duration = gameProperties.phase1Duration;
-					// message.phase1Utilities = gameProperties.phase1Utilities;
-					// message.phase2Utilities = store.players[soc1.id].printResults();
-					// message.phase2Utilities.round = store.round;
-					soc1.sessionSocket.emit('serverMessage', getServerMesage(store, soc1, roomObject));						
+					soc1.sessionSocket.emit('serverMessage', getServerMessage(store, soc1, roomObject));						
 				}
 				else
 				{
@@ -226,14 +221,7 @@ playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilit
 				if(!soc2.isAgent)
 				{
 					soc2.updateRecommender(store.answererSet[soc2.id].chosenAnswer, store.answererSet[soc1.id].chosenAnswer);
-					// var cummScore = store.players[soc2.id].getCummulativeValue();
-					// var message2 = {count : store.round, rounds : roomObject.getGameRounds(), cumm :cummScore};
-					// message2.phase2Duration = gameProperties.phase2Duration;
-					// message2.phase1Duration = gameProperties.phase1Duration;
-					// message2.phase1Utilities = gameProperties.phase1Utilities;
-					// message2.phase2Utilities = store.players[soc2.id].printResults();
-					// message2.phase2Utilities.round = store.round;
-					soc2.sessionSocket.emit('serverMessage', getServerMesage(store, soc2, roomObject));						
+					soc2.sessionSocket.emit('serverMessage', getServerMessage(store, soc2, roomObject));						
 				}
 				else
 				{
@@ -256,7 +244,7 @@ socket.on('disconnect', function()
 		}
 		else if(typeof gameControllerArray[presentSocketGameCounter] === "undefined")
 		{
-			// a case where a previous game sends an disconnect message
+			// a case where a previous game sends a disconnect message
 			return;
 		}
 

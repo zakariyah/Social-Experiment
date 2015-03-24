@@ -1,10 +1,10 @@
 // saves the moves of player for each round
 var mongoose = require('mongoose');
-  var moveSchema = new mongoose.Schema({
+  var espMoveSchema = new mongoose.Schema({
   gameid: { type: String },
   round: Number,
   playerid: String,
-  action: String,     // 1 for cooperate and 2 for defect
+  action: String,     // 
   actionValue: Number,     // depending on the matrix
   playerid2: String,
   action2: String,
@@ -21,7 +21,7 @@ var mongoose = require('mongoose');
 
 
 
-moveSchema.statics.createMove = function(move) {
+espMoveSchema.statics.createMove = function(move) {
 
     var newMove = new this({
        gameid: move.gameid,
@@ -48,7 +48,7 @@ hiitNumber2 : move.hiitNumber2
     })
 }
 
-moveSchema.statics.getMovesFromHiitNumber = function(hiitInfo, callback) {
+espMoveSchema.statics.getMovesFromHiitNumber = function(hiitInfo, callback) {
    this.find({ $and : [
     {gameid : hiitInfo.gameid},
     {$or : [{hiitNumber1 : hiitInfo.id}, {hiitNumber2 : hiitInfo.id}]}
@@ -56,5 +56,5 @@ moveSchema.statics.getMovesFromHiitNumber = function(hiitInfo, callback) {
 }
 
 
-var Moves2 = mongoose.model('Moves2', moveSchema);
-module.exports = Moves2;
+var EspMoves2 = mongoose.model('EspMoves', espMoveSchema);
+module.exports = EspMoves2;

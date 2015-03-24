@@ -9,9 +9,8 @@
                     ["B","B",0,0] ],
   "leastNumberOfRounds": 2,
   "variableAdditionOfRounds": 10,
-  "phase1Duration": 10,
-  "phase2Duration": 10,
-  "phase3Duration": 10,
+  "phase1Duration": 5,
+  "phase2Duration": 5,
   "countBeginning": 30,
   "minTimeMins": 25,
   "maxTimeMins": 30,
@@ -19,5 +18,7 @@
   "reward": 0.50,
   "maxbonus": 2.0,
   "numPlayers": 2,
-  "title": "Experiment"
+  "title": "Experiment",
+  "tutorialPage" : "tutorial",
+  "entryPage" : "entry"
 }

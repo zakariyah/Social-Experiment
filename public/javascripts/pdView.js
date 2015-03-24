@@ -3,13 +3,9 @@ function pdPhase1(phase1Utilities)
 	var htmlString = "<div class=\"alert alert-warning\"> NEW ROUND </div>";
 	var matrixAsSeenByPlayer = phase1Utilities.payoffMatrix;
 	var optionMatrix = phase1Utilities.optionMatrix;
-  htmlString += "";
-  htmlString += ("<p> <strong class=\"alert alert-success\">Payoff Structure</strong></p><table class='table table-bordered table-condensed'><tr class=\"danger\"><th>Option</th> <th>You will get</th> <th>The other person will get</th> </tr><tr  class=\"danger\"><td><input type=\"radio\" name=\"choiceAction\" id=\'first\' onclick=\'return setTimeOfEvent()\' value=\"1\"> " + optionMatrix[0] + ": </td><td>"+ matrixAsSeenByPlayer[0][0] + "</td><td>"+ matrixAsSeenByPlayer[0][1] + "</td></tr><tr  class=\"danger\"><td><input type=\"radio\" name=\"choiceAction\" id=\'second\' onclick=\'return setTimeOfEvent()\' value=\"2\"> " + optionMatrix[1] + ": </td><td>"+ matrixAsSeenByPlayer[1][0] + "</td><td>"+ matrixAsSeenByPlayer[1][1] + "</td></tr></table><div style='border: 1px #bce8f1 solid;   line-height: 120%;   font-size: 36px;  text-align: center; background-color: #d9edf7;   margin: 5px;'> <span id=\'timer\'></span> </div>" + "<div class='progress'><div id='progressBarMain' class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='5' aria-valuemin='0' aria-valuemax='100' style='width: 5%;'></div></div>"); 
+	htmlString += "";
+    htmlString += ("<p> <strong class=\"alert alert-success\">Payoff Structure</strong></p><table class='table table-bordered table-condensed'><tr class=\"danger\"><th>Option</th> <th>You will get</th> <th>The other person will get</th> </tr><tr  class=\"danger\"><td><input type=\"radio\" name=\"choiceAction\" id=\'first\' onclick=\'return setTimeOfEvent()\' value=\"1\"> " + optionMatrix[0] + ": </td><td>"+ matrixAsSeenByPlayer[0][0] + "</td><td>"+ matrixAsSeenByPlayer[0][1] + "</td></tr><tr  class=\"danger\"><td><input type=\"radio\" name=\"choiceAction\" id=\'second\' onclick=\'return setTimeOfEvent()\' value=\"2\"> " + optionMatrix[1] + ": </td><td>"+ matrixAsSeenByPlayer[1][0] + "</td><td>"+ matrixAsSeenByPlayer[1][1] + "</td></tr></table><div style='border: 1px #bce8f1 solid;   line-height: 120%;   font-size: 36px;  text-align: center; background-color: #d9edf7;   margin: 5px;'> <span id=\'timer\'></span> </div>" + "<div class='progress'><div id='progressBarMain' class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='5' aria-valuemin='0' aria-valuemax='100' style='width: 5%;'></div></div>"); 
 
-
-
-  // var actionElement = document.getElementById('actions');
-  //   actionElement.innerHTML = htmlString;
 	return htmlString;
 }
 

@@ -90,33 +90,53 @@ function answerstore(numberOfAnswers) {
             player1Value = newgame.getPlayerPayoff([player1Choice, player2Choice], 1);
             player2Value = newgame.getPlayerPayoff([player1Choice, player2Choice], 2);
             
-            // newly added values
+
             player1Object = this.answererObjects[player1id];
             player2Object = this.answererObjects[player2id];
             player1HiitNumber = player1Object.hiitNumber;
             player2HiitNumber = player2Object.hiitNumber;
-            hasRecommenderValue  = player1Object.hasRecommender ? "yes" : "no";
-            hasRecommender2Value  = player2Object.hasRecommender ? "yes" : "no"; 
-            recommendedActionValue = player1Object.getLatestRecommendation();
-            recommendedAction2Value = player2Object.getLatestRecommendation();
             timeOfActionValue = player1Object.getTimeOfAction();
             timeOfAction2Value = player2Object.getTimeOfAction();
             isAgentValue = player1Object.isAgent ? "yes" : "no";
             isAgent2Value = player2Object.isAgent ? "yes" : "no";
-            recommendertype = player1Object.getRecommenderType();
-            recommendertype2 = player2Object.getRecommenderType();
+
+            // add to player history in memory
             this.players[player1id].addToHistory([player1Choice, player1Value, player2Choice,player2Value, player1Type, player2Type]);
             this.players[player2id].addToHistory([player2Choice, player2Value, player1Choice,player1Value, player2Type, player1Type]);
-             //database savings
-                move = {gameid : this.gameid, round : this.round, playerid : player1id,
+
+            var move = {gameid : this.gameid, round : this.round, playerid : player1id,
                 action : player1Choice, actionValue : player1Value, 
                 playerid2 : player2id,
                 action2 : player2Choice, actionValue2 : player2Value, actiontype: player1Type
-                , actiontype2: player2Type, hasRecommender : hasRecommenderValue, hasRecommender2 : hasRecommender2Value,
-                recommendedAction : recommendedActionValue, recommendedAction2 : recommendedAction2Value,
-                timeOfAction : timeOfActionValue, timeOfAction2 : timeOfAction2Value, isAgent : isAgentValue, isAgent2 : isAgent2Value, hiitNumber1 : player1HiitNumber,
-                hiitNumber2 : player2HiitNumber, recommendertype : recommendertype, recommendertype2 : recommendertype2 };
-                moves.createMove(move);             
+                , actiontype2: player2Type, timeOfAction : timeOfActionValue, timeOfAction2 : timeOfAction2Value, isAgent : isAgentValue, isAgent2 : isAgent2Value, hiitNumber1 : player1HiitNumber,
+                hiitNumber2 : player2HiitNumber};
+            gameProperties.saveOneRoundToDatabase(move);             
+
+            // // newly added values
+            
+            // // player1HiitNumber = player1Object.hiitNumber;
+            // // player2HiitNumber = player2Object.hiitNumber;
+            // hasRecommenderValue  = player1Object.hasRecommender ? "yes" : "no";
+            // hasRecommender2Value  = player2Object.hasRecommender ? "yes" : "no"; 
+            // recommendedActionValue = player1Object.getLatestRecommendation();
+            // recommendedAction2Value = player2Object.getLatestRecommendation();
+            // // timeOfActionValue = player1Object.getTimeOfAction();
+            // // timeOfAction2Value = player2Object.getTimeOfAction();
+            // // isAgentValue = player1Object.isAgent ? "yes" : "no";
+            // // isAgent2Value = player2Object.isAgent ? "yes" : "no";
+            // recommendertype = player1Object.getRecommenderType();
+            // recommendertype2 = player2Object.getRecommenderType();
+            
+            //  //database savings
+            //     move = {gameid : this.gameid, round : this.round, playerid : player1id,
+            //     action : player1Choice, actionValue : player1Value, 
+            //     playerid2 : player2id,
+            //     action2 : player2Choice, actionValue2 : player2Value, actiontype: player1Type
+            //     , actiontype2: player2Type, hasRecommender : hasRecommenderValue, hasRecommender2 : hasRecommender2Value,
+            //     recommendedAction : recommendedActionValue, recommendedAction2 : recommendedAction2Value,
+            //     timeOfAction : timeOfActionValue, timeOfAction2 : timeOfAction2Value, isAgent : isAgentValue, isAgent2 : isAgent2Value, hiitNumber1 : player1HiitNumber,
+            //     hiitNumber2 : player2HiitNumber, recommendertype : recommendertype, recommendertype2 : recommendertype2 };
+            //     moves.createMove(move);             
         }
     }
 
