@@ -30,7 +30,7 @@ function setTimeOfEvent()
 
 function setFirstTimer(content) //put content
 {
-  showFirstPhase();
+  showFirstPhase(content);
   var mainCount = content.phasesDuration[0];
   var count = content.phasesDuration[0];
   var interval = 1000;
@@ -63,7 +63,7 @@ function setFirstTimer(content) //put content
 
 function setSecondTimer(content) //put content
 {
-  showSecondPhase();
+  showSecondPhase(content);
   var mainCount = content.phasesDuration[1];
   var count = content.phasesDuration[1];
   var interval = 1000;
@@ -112,7 +112,6 @@ function timer()
 
 function setThirdTimer(content)
 { // players choices
-  // showThirdPhase();
   var timeForChoices = content.phasesDuration[2];
   var counter=setInterval(timer, 1000);
   function timer()

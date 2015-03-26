@@ -1,13 +1,15 @@
-function showFirstPhase(phase1Utilities)
+function showFirstPhase(content)
 {
-	var htmlString = "<div class=\"alert alert-warning\"> PHASE 1 </div>";
-	htmlString += "<div> Basic Information goes here </div><div><span id=\'timer\'></span></div>";
+	var count = content.count + 1;
+	var url = "asset/espFirstPhase/" + count + ".html";
+	var htmlString = "<div><object type=\"text/html\" data=\"" + url + "\"></object>  </div>";
+	htmlString += "<div><span id=\'timer\'></span></div>";
 	htmlString += "<div class='progress'><div id='progressBarMain' class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='5' aria-valuemin='0' aria-valuemax='100' style='width: 5%;'></div></div>";
 	document.getElementById('actions').innerHTML = htmlString;
 	return htmlString;
 }
 
-function showSecondPhase(phase2Utilities)
+function showSecondPhase(content)
 {
 	var htmlString = "<div class=\"alert alert-warning\"> PHASE 2 </div>";
 	htmlString += ("<p> <strong class=\"alert alert-success\">Type in some words</strong></p><textarea rows=\"4\" cols=\"50\" id=\'first\' onclick=\'return setTimeOfEvent()\'> </textarea><div style='border: 1px #bce8f1 solid;   line-height: 120%;   font-size: 36px;  text-align: center; background-color: #d9edf7;   margin: 5px;'> <span id=\'timer\'></span> </div>" + "<div class='progress'><div id='progressBarMain' class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='5' aria-valuemin='0' aria-valuemax='100' style='width: 5%;'></div></div>"); 
