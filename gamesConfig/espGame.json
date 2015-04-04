@@ -1,6 +1,6 @@
 {
   "leastNumberOfRounds": 2,
-  "variableAdditionOfRounds": 10,
+  "variableAdditionOfRounds": 2,
   "phasesDuration" : [5, 15, 5],
   "countBeginning": 30,
   "minTimeMins": 25,

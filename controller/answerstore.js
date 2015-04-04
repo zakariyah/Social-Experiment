@@ -1,5 +1,4 @@
 // needing
-var moves = require('../model/actionmodel');
 var game = require('./game');
 var player = require('./player');
 var answerContainer = require('./answer.js');
@@ -111,32 +110,6 @@ function answerstore(numberOfAnswers) {
                 , actiontype2: player2Type, timeOfAction : timeOfActionValue, timeOfAction2 : timeOfAction2Value, isAgent : isAgentValue, isAgent2 : isAgent2Value, hiitNumber1 : player1HiitNumber,
                 hiitNumber2 : player2HiitNumber};
             gameProperties.saveOneRoundToDatabase(move);             
-
-            // // newly added values
-            
-            // // player1HiitNumber = player1Object.hiitNumber;
-            // // player2HiitNumber = player2Object.hiitNumber;
-            // hasRecommenderValue  = player1Object.hasRecommender ? "yes" : "no";
-            // hasRecommender2Value  = player2Object.hasRecommender ? "yes" : "no"; 
-            // recommendedActionValue = player1Object.getLatestRecommendation();
-            // recommendedAction2Value = player2Object.getLatestRecommendation();
-            // // timeOfActionValue = player1Object.getTimeOfAction();
-            // // timeOfAction2Value = player2Object.getTimeOfAction();
-            // // isAgentValue = player1Object.isAgent ? "yes" : "no";
-            // // isAgent2Value = player2Object.isAgent ? "yes" : "no";
-            // recommendertype = player1Object.getRecommenderType();
-            // recommendertype2 = player2Object.getRecommenderType();
-            
-            //  //database savings
-            //     move = {gameid : this.gameid, round : this.round, playerid : player1id,
-            //     action : player1Choice, actionValue : player1Value, 
-            //     playerid2 : player2id,
-            //     action2 : player2Choice, actionValue2 : player2Value, actiontype: player1Type
-            //     , actiontype2: player2Type, hasRecommender : hasRecommenderValue, hasRecommender2 : hasRecommender2Value,
-            //     recommendedAction : recommendedActionValue, recommendedAction2 : recommendedAction2Value,
-            //     timeOfAction : timeOfActionValue, timeOfAction2 : timeOfAction2Value, isAgent : isAgentValue, isAgent2 : isAgent2Value, hiitNumber1 : player1HiitNumber,
-            //     hiitNumber2 : player2HiitNumber, recommendertype : recommendertype, recommendertype2 : recommendertype2 };
-            //     moves.createMove(move);             
         }
     }
 

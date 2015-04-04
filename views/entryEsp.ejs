@@ -130,7 +130,7 @@ function setThirdTimer(content)
 
 function endGame(cummulativeScore, numberOfRounds)
 {
-        var htmlString = "<div class=\"alert alert-warning\"> Thank you very much, The game is over. You had a total of " + cummulativeScore  +" points</div>";
+        var htmlString = "<div class=\"alert alert-warning\"> Thank you very much, The game is over. You had a total of " + cummulativeScore.toFixed(2)  +" points</div>";
         htmlString += "<div class=\"alert alert-warning\"> Please fill in the survey below </div>";
         var heHadRecommenders = 0;
         htmlString += postQuizQuestions(heHadRecommenders, cummulativeScore, numberOfRounds);
@@ -195,17 +195,38 @@ function waitingRoomEnded()
 function chatRoom()
 {
   var val = 0;
-  var textInfo = document.getElementById('first').value;
+  var firstChoice = document.getElementById('first').value;
   if(textInfo != "")
   {
     // check if textArea is empty
     val = textInfo;
   }
+
   socket.emit('clientMessage', {'gamePlay' : val, 'timeOfAction' : timeOfAction});  
   timeOfAction = -1; 
 
   return true;
 }
+
+function chatRoom()
+{
+  var val = 0;
+  if(document.getElementById('first').checked)
+  {
+    val = 1;
+  }
+  else if(document.getElementById('second').checked)
+  {
+    val = 2;
+  }
+  var sliderValue = document.getElementById('slider').value;
+  var tobeSent = val + ";" + sliderValue;
+  socket.emit('clientMessage', {'gamePlay' : tobeSent, 'timeOfAction' : timeOfAction});  
+  timeOfAction = -1; 
+
+  return true;
+}
+
 
 var hiitNumber = document.getElementById("hiitNumber").innerHTML;
 // for starting game

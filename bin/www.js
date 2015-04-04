@@ -237,6 +237,7 @@ playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilit
 
 socket.on('disconnect', function()
 {
+	// console.log("disconnect was called " + socket.id);
 	var presentSocketGameCounter = playersSocketDict[socket.id];
 		if(typeof presentSocketGameCounter === 'undefined')
 		{
@@ -270,7 +271,7 @@ socket.on('disconnect', function()
 			{
 				return;
 			}
-		store.addAnswer(0, gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id]);
+		store.addAnswer(gameProperties.getNoActionVale(), gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id]);
 		store.setPlayerConnectedStatusToFalse(socket.id);
 		var messageText = "<div class=\"alert alert-warning\"> Round " + store.round + " results</div>";
 		if(store.isFilled()) //when does this happen !!!
@@ -290,15 +291,5 @@ socket.on('disconnect', function()
 	}
 });
 
-
-// socket.on('timeOfAction', function(timeOfAction) { // used to set the time action took place
-// 		var presentSocketGameCounter = playersSocketDict[socket.id];
-// 		if(typeof presentSocketGameCounter === 'undefined')
-// 		{
-// 			return;
-// 		}
-// 		var playerWithTime =  gameControllerArray[presentSocketGameCounter].gamePlayers[socket.id]; //	roomToSocket[socket.id];
-// 		playerWithTime.setTimeOfAction(timeOfAction);
-// 		});
 
 });

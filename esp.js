@@ -14,50 +14,41 @@ esp.gameRounds = function()
 	// returns leastNumberOfRounds + a number less than or equal to variableAdditionOfRounds
 	return esp.leastNumberOfRounds + Math.floor((Math.random() * esp.variableAdditionOfRounds));
 }
+esp.moves = moves;
 
 esp.calculator = function(optionChosen, playerNumber) //yourChoice, opponentChoice)
 {
 	// returns the player Number payoff. player number can be 1 or 2
 	// option chosen is a list of length 2 containing player1choice then player2choice
+	// each element in optionChosen contains the two choices concantenated with a semicolon
+	// 1 represent yes while 2 represent no
 	if(playerNumber == 2)
 	{
 		optionChosen = [optionChosen[1], optionChosen[0]]; 
 	}
-	if(optionChosen[0] === "" || optionChosen[1] === "")
-	{
-		return 0;
-	}
-	var opponentWords = optionChosen[1].trim().split(" ");
-	var yourWords = optionChosen[0].trim().split(" ");
-	var opponentWordsSet = {};
-	for(var i = 0; i < opponentWords.length; i++)
-	{
-		opponentWordsSet[opponentWords[i]] = true;
-	}
-
-	// calculate score
-	var score = 0;
-	for(var i = 0; i < yourWords.length; i++)
-	{
-		if(yourWords[i] in opponentWordsSet)
-		{
-			score += 1;
-		}
-	}
-
-	return score; // compares words and give values
+	var myChoices = optionChosen[0].split(";");
+	var opponentChoices = optionChosen[1].split(";");
+	myYN = myChoices[0] % 2; // to convert 2 to zero
+	myP = myChoices[1];
+	otherYN = opponentChoices[0] % 2; // to convert 2 to zero
+	otherP = opponentChoices[1];
+	var score = 2 + otherYN * Math.log(myP) + (1 - otherYN) * Math.log(1 - myP) + myYN * Math.log(myP/otherP) + (1 - myYN) * Math.log(otherP/myP);
+	return Number(score.toFixed(2)); 
 	
 }
 
 esp.getBriefAnswerFromHistory = function(lastHistory)
 {
 		var briefAnswer = {};
-		
-		briefAnswer.playerChoice = lastHistory[0] ;
-		briefAnswer.opponentChoice = lastHistory[2];
+		var playerChoice = lastHistory[0].split(";");
+		var opponentChoice = lastHistory[2].split(";");
+		briefAnswer.playerYN = playerChoice[0] ;
+		briefAnswer.playerP = playerChoice[1];
+		briefAnswer.opponentYN = opponentChoice[0];
+		briefAnswer.opponentP = opponentChoice[1];
 
-		briefAnswer.playerGotFromItself = 5;
-		briefAnswer.playerGotFromOpponent = 5
+		// briefAnswer.playerGotFromItself = 5;
+		// briefAnswer.playerGotFromOpponent = 5
 		briefAnswer.total = lastHistory[1];
 		// briefAnswer.total = briefAnswer.playerGotFromItself + briefAnswer.playerGotFromOpponent;
 		briefAnswer.playerChoiceWasRandom = (lastHistory[4] == 0);
@@ -74,9 +65,10 @@ esp.setChosenAnswerValueAndType = function(value)
 {
 	// dealing with random in esp
 	var answerTypeValue = [];
-	if(value == 0)
+	var answers = value.split(";");
+	if(answers[0] == 0)
 	{
-		answerTypeValue[0]  = "";
+		answerTypeValue[0]  = (Math.floor(Math.random() * 2) + 1) + ";" + answers[1];
 		answerTypeValue[1] = 0;  //response trigerred after a period of inactivity: Random value generated
 	}
 	else
@@ -85,5 +77,10 @@ esp.setChosenAnswerValueAndType = function(value)
 		answerTypeValue[1] =  1;
 	}	
 	return answerTypeValue;
+}
+
+esp.getNoActionVale = function()
+{
+	return '0;0.1';
 }
 module.exports = esp;

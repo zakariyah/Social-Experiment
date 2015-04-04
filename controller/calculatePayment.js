@@ -1,5 +1,5 @@
-var moves = require('../model/actionmodel');
 var gameProperties = require('../controller/gameProperties');
+// var moves = require('../model/actionmodel');
 // needing 2 totalexpectedperround
 
 var calculatePayment = function(req, res)
@@ -8,7 +8,7 @@ var calculatePayment = function(req, res)
 	hiitInfo['gameid'] = gameProperties.gameId;
 	var hiitNumber = req.body.playerid;
 	hiitInfo['id'] = hiitNumber;
-	moves.getMovesFromHiitNumber(hiitInfo, function(err, result)
+	gameProperties.moves.getMovesFromHiitNumber(hiitInfo, function(err, result)
 	{		
 		var accruedSum = 0.0;
 		var numberOfRandoms = 0;

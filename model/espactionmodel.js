@@ -22,7 +22,6 @@ var mongoose = require('mongoose');
 
 
 espMoveSchema.statics.createMove = function(move) {
-
     var newMove = new this({
        gameid: move.gameid,
    		 round: move.round,
@@ -44,6 +43,7 @@ hiitNumber2 : move.hiitNumber2
 
     newMove.save(function(err) {
         if (err)
+            // console.log(err);
             throw new Error('Could not create move');
     })
 }

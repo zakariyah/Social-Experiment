@@ -48,6 +48,8 @@ pd.getBriefAnswerFromHistory = function(lastHistory)
 		return briefAnswer;
 }
 
+pd.moves = moves;
+
 pd.saveOneRoundToDatabase = function(move)
 {
 	moves.createMove(move);
@@ -68,4 +70,9 @@ pd.setChosenAnswerValueAndType = function(value)
 	}		
 	return answerTypeValue;
 }
+pd.getNoActionVale = function()
+{
+	return 0;
+}
+
 module.exports = pd;

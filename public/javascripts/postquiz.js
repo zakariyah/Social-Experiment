@@ -350,20 +350,7 @@ postQuizHtmlQuiz += "    <option value='AT'>Austria</option>";
     postQuizHtmlQuiz += "<option value='CSM'>Computer Science or Mathematics</option><option value='OSE'>Other Science or Engineering</option>";
     postQuizHtmlQuiz += "<option value='OTHER'>Other</option><option value='NONE'>None</option><option value='-'>(I prefer to not answer)</option>";
     postQuizHtmlQuiz += "</select></div></div>";
-    postQuizHtmlQuiz += "<div class='form-group'><label for='exampleInputEmail1' class='col-sm-2 control-label'>How familiar are you with game theory?</label>";
-    postQuizHtmlQuiz += "<div class='col-sm-10'><input type='hidden' name='q5' value='FAMILIARITY'/>";
-    postQuizHtmlQuiz += "<select name='familiarity' required='required' class='form-control'><option value='' selected='selected'>(please select one)</option>";
-    postQuizHtmlQuiz += "<option value='NEVER'>I've never heard of it</option><option value='HEARD'>I've heard people talk about it</option>";
-    postQuizHtmlQuiz += "<option value='READ'>I've read or talked about some details of game theory</option>";
-    postQuizHtmlQuiz += "<option value='STUDIED'>I took a class on game theory</option><option value='EXPERT'>I'm obsessed with game theory</option>";
-    postQuizHtmlQuiz += "<option value='-'>(I prefer to not answer)</option></select></div></div>";
-    postQuizHtmlQuiz += "<div class='form-group'><label for='exampleInputEmail1' class='col-sm-2 control-label'>Have you played a matrix game before today?</label>";
-    postQuizHtmlQuiz += "<div class='col-sm-10'><input type='hidden' name='q6' value='EXPERIENCE'/>";
-    postQuizHtmlQuiz += "<select name='experience' required='required' class='form-control'><option value='' selected='selected'>(please select one)</option>";
-    postQuizHtmlQuiz += "<option value='NONE'>Never</option><option value='LOW'>Once or twice</option>";
-    postQuizHtmlQuiz += "<option value='HIGH'>Many times</option><option value='-'>(I prefer to not answer)</option>"
-    postQuizHtmlQuiz += "</select></div></div>";
-
+   
 
 
 
