@@ -9,7 +9,7 @@
                     ["B","B",0,0] ],
   "leastNumberOfRounds": 2,
   "variableAdditionOfRounds": 10,
-  "phase1Duration": 5,
+  "phase1Duration": 10,
   "phase2Duration": 5,
   "countBeginning": 30,
   "minTimeMins": 25,

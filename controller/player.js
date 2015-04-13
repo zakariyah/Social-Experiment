@@ -35,6 +35,7 @@ function player(id)
 	{
 		var lastIndex = this.history.length - 1;
 		var lastHistory = this.history[lastIndex];
+		// console.log("lastHistory is " + lastHistory + ": " + this.history.length);
 		return  gameProperties.getBriefAnswerFromHistory(lastHistory);
 	};
 }

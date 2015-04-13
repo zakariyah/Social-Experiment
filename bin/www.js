@@ -129,6 +129,7 @@ ionew.sockets.on('connection', function (socket) {
 playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilities : 0, rounds : numberOfRounds, phase1Duration : gameProperties.phase1Duration, phasesDuration:gameProperties.phasesDuration});
 // phase2Utilities is zero because of first round
 // phasesDuration specific to esp game for now
+						gameProperties.phase1Utilities.round = 0;
 						playerToSendMessage.sessionSocket.emit('start', gameProperties.phase1Utilities);
 				}
 			}
@@ -159,6 +160,7 @@ playerToSendMessage.sessionSocket.emit('serverMessage', {count : 0, phase2Utilit
 			message.phase2Duration = gameProperties.phase2Duration;
 			message.phase1Duration = gameProperties.phase1Duration;
 			message.phase1Utilities = gameProperties.phase1Utilities;
+			message.phase1Utilities.round = store.round;
 			message.phase2Utilities = store.players[soc.id].printResults();
 			message.phase2Utilities.round = store.round; // present round
 			message.phase2Utilities.duration = gameProperties.phase2Duration;

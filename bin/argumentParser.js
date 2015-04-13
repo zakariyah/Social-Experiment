@@ -11,7 +11,7 @@ if(arguments.length != 3)
 	exitProgram();
 }
 var gameType = "";
-var gameTypes = {"esp" : true, "pd" : true};
+var gameTypes = {"esp" : true, "pd" : true, "wordTwoPlayer" : true};
 if(arguments[2] in gameTypes)
 {
 	gameType = arguments[2]

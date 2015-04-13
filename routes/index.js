@@ -61,6 +61,7 @@ router.post('/tutorial', function(req, res) {
 		return;
 	}
 	// res.render('tutorial', { title: 'Entry', minTimeMins : 5, maxTimeMins : 20, currency:'AED', reward : 50,maxbonus :20, playingtimes : 10, numPlayers : 6, waitingRoomTime : 30000});		
+	// console.log(gameProperties.tutorialPage);	
 	saveHiitNumber(req, res, 'information', gameProperties.tutorialPage);
 });
 

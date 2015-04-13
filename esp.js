@@ -81,6 +81,6 @@ esp.setChosenAnswerValueAndType = function(value)
 
 esp.getNoActionVale = function()
 {
-	return '0;0.1';
+	return '0;0.01';
 }
 module.exports = esp;
