@@ -16,5 +16,5 @@
   "entryPage" : "entryWord",
   "socketConnectAddress" : "http://localhost:4000",
   "socketIOAddress" : "http://localhost:4000/socket.io/socket.io.js",
-  "wordsToScramble": [ "Sandwich","Scorpion", "adewale", "total" ]
+  "wordsToScramble": [ "Sandwich","Scorpion", "adewale", "total", "another" ]
 }
